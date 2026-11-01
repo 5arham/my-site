@@ -10,8 +10,7 @@
   To change a play's text, edit the PLAYS object below. Use *asterisks*
   around a word to make it italic.
 
-  Preview outside Wix: open this file in a browser with #ilhaam, #rashomon or
-  #bhagavadajjukam on the end of the address.
+  Preview outside Wix: just open this file in a browser and click a play.
 -->
 <html lang="en">
 <head>
@@ -95,6 +94,15 @@
   em { font-style: italic; }
   .note p { color: var(--muted); }
 
+  /* Preview buttons: only shown when this file is opened on its own, never inside Wix. */
+  .preview { display: none; padding: 48px 24px; background: var(--bg); min-height: 100%; }
+  .standalone .preview { display: block; }
+  .preview p { margin: 0 0 20px; font-size: 14px; color: var(--muted); }
+  .preview button {
+    font: 400 16px/1 var(--mono); margin: 0 12px 12px 0; padding: 14px 22px;
+    background: #fff; color: #000; border: 0; border-radius: 0; cursor: pointer;
+  }
+
   @media (max-width: 640px) {
     .overlay { padding: 12px; }
     .panel { padding: 72px 24px 32px; }
@@ -105,6 +113,13 @@
 </style>
 </head>
 <body>
+
+<div class="preview" id="preview">
+  <p>Preview: click a play to see its details popup.</p>
+  <button type="button" data-play="bhagavadajjukam">Bhagavadajjukam</button>
+  <button type="button" data-play="ilhaam">Ilhaam</button>
+  <button type="button" data-play="rashomon">Rashomon</button>
+</div>
 
 <div class="overlay" id="overlay" aria-hidden="true">
   <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="title" tabindex="-1">
@@ -220,6 +235,14 @@
 
   // Let the page know we have loaded, so it can re-send a click that arrived early.
   window.parent.postMessage({ type: "ready" }, "*");
+
+  // Standalone preview (file opened directly, not inside Wix): show the play buttons.
+  if (window.parent === window) {
+    document.body.classList.add("standalone");
+    document.querySelectorAll("#preview button").forEach(function (b) {
+      b.addEventListener("click", function () { openPlay(b.getAttribute("data-play")); });
+    });
+  }
 
   // Standalone preview: play-details.html#ilhaam
   if (location.hash && PLAYS[location.hash.slice(1)]) openPlay(location.hash.slice(1));
