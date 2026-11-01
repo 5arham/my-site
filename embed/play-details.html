@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--
+  PLAY DETAILS POPUP
+  ------------------
+  Paste this whole file into a Wix "HTML iframe / Embed code" element
+  (Embed Code > Code > paste), give that element the ID  #playDetailsModal
+  and pin it to the screen at full width/height. The HOME page code
+  (src/pages/HOME .ophuc.js) opens it when a "Read More" button is clicked.
+
+  To change a play's text, edit the PLAYS object below. Use *asterisks*
+  around a word to make it italic.
+
+  Preview outside Wix: open this file in a browser with #ilhaam, #rashomon or
+  #bhagavadajjukam on the end of the address.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #231f20;          /* site's charcoal background */
+    --ink: #ffffff;
+    --muted: rgba(255, 255, 255, 0.72);
+    --line: rgba(255, 255, 255, 0.22);
+    --serif: "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
+    --mono: "Space Mono", "Courier New", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: transparent; }
+  body { font-family: var(--mono); color: var(--ink); }
+
+  .overlay {
+    position: fixed; inset: 0;
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+    background: rgba(10, 8, 9, 0.78);
+  }
+  .overlay.open { display: flex; animation: fade 0.25s ease; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .panel {
+    position: relative;
+    width: min(920px, 100%);
+    max-height: 100%;
+    overflow-y: auto;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 56px 64px 48px;
+    outline: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+
+  .close {
+    position: absolute; top: 20px; right: 20px;
+    font: 400 16px/1 var(--mono);
+    letter-spacing: 0.02em;
+    padding: 14px 22px;
+    background: #fff; color: #000;
+    border: 0; border-radius: 0; cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .close:hover, .close:focus-visible { background: #000; color: #fff; outline: 1px solid #fff; }
+
+  .eyebrow {
+    margin: 0 0 14px;
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    margin: 0 0 36px;
+    padding-right: 120px;
+    font: 600 clamp(40px, 6.5vw, 76px)/1 var(--serif);
+    letter-spacing: -0.04em;
+  }
+  h2 {
+    margin: 0 0 18px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font: 700 13px/1 var(--mono);
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .block { margin-bottom: 40px; }
+  .block:last-child { margin-bottom: 0; }
+  p {
+    margin: 0 0 18px;
+    font-size: 16.5px; line-height: 1.7;
+  }
+  .block p:last-child { margin-bottom: 0; }
+  em { font-style: italic; }
+  .note p { color: var(--muted); }
+
+  @media (max-width: 640px) {
+    .overlay { padding: 12px; }
+    .panel { padding: 72px 24px 32px; }
+    h1 { padding-right: 0; margin-bottom: 28px; }
+    p { font-size: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .overlay.open { animation: none; } }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="title" tabindex="-1">
+    <button class="close" id="close" type="button">Close</button>
+    <p class="eyebrow">Play Details</p>
+    <h1 id="title"></h1>
+    <div class="block" id="synopsis"><h2>Synopsis</h2></div>
+    <div class="block note" id="note"><h2>Director’s Note</h2></div>
+  </section>
+</div>
+
+<script>
+  var PLAYS = {
+    bhagavadajjukam: {
+      title: "Bhagavadajjukam",
+      synopsis: [
+        "Shandilya’s interest in religion begins with the prospect of a decent meal. His teacher, the wandering ascetic Parivrajaka, has rather different concerns, and their conversations in *Bhagavadajjukam* keep returning to the pupil’s difficulty in thinking beyond his appetite. This Sanskrit farce, traditionally attributed to Bodhayana, gives their disagreement an unexpected practical demonstration.",
+        "In a garden, Shandilya encounters Vasantasena, a courtesan waiting for her lover, Ramilaka. Yama’s messenger mistakes her for another woman bearing the same name, takes the form of a snake and bites her. When she dies, Shandilya’s distress prompts the monk to demonstrate his teaching about the soul: he leaves his own body and enters hers.",
+        "The revived Vasantasena begins speaking like the ascetic, to the bewilderment of those who know her. Returning to correct his mistake, Yama’s messenger finds her body occupied and places her soul inside the monk’s. The monk’s body now longs for Ramilaka, while the courtesan’s rebukes the people who approach her. Her mother and lover have no explanation for either transformation, and the healers summoned to help fare little better.",
+        "The audience has watched the exchange happen and can enjoy the increasingly hopeless attempts to diagnose it. The healers’ learning proves unreliable, while religious dignity sits awkwardly on a body expressing a courtesan’s desires. Everyone has been accustomed to recognising people through familiar gestures and social positions; the exchange deprives them of that confidence.",
+        "The action follows a largely linear course within one act, with the messenger’s mistake setting off the succession of misunderstandings. Both souls eventually regain their bodies. Throughout the confusion, the monk’s lesson about the soul has become entangled with the disciple’s very ordinary attachments. His appetite and attraction keep intruding upon a discussion that would otherwise remain comfortably abstract, bringing its claims about detachment into contact with everyday desire."
+      ],
+      note: [
+        "Playing people whose bodies and voices no longer belong together asked a great deal of our actors, and I owe them my sincerest gratitude for working around the clock on this production. Our Masters-in-charge, Mr Devendra Mishra and Mr Satyashrava Sharma gave us their patience and advice as we worked through the play, and I am grateful for the time they spent helping us understand it. As the director, I also have deepfound respect for my fellow producer, Sumer Veer Singh, for sharing the responsibility with me. So much of a production belongs to the people beside you, and I am grateful that I had their help in bringing this one to the stage."
+      ]
+    },
+
+    ilhaam: {
+      title: "Ilhaam",
+      synopsis: [
+        "Bhagwan comes home late on his birthday, having missed the celebration his family prepared. He has spent the evening in a park, where he feels happier than he has for some time. In Manav Kaul’s *Ilhaam*, his attempts to explain that happiness gradually frighten the people waiting for him.",
+        "He is a banker with a wife, Poonam, and children. His friend, Shukla expects much the same things from life as the family does. Bhagwan has begun to lose interest in those expectations. After giving a pensioner extra money in response to her suffering, he stops going to work and is suspended. Poonam must cope with his absence from the bank as well as his distance from her.",
+        "He can understand birds and speak with Mohan, a beggar who cannot speak, although his family’s language becomes unintelligible to him. The comic-book figure Chacha Chaudhary appears in his experience, recalling the imaginative freedom of childhood. Bhagwan also remembers a boatman persecuted for talking to birds, whom he failed to defend. He now has reason to fear the treatment that man received.",
+        "Scenes alternate between the family’s drawing room and a park bench, interrupted by memories and imagined conversations, mirroring the fragmented sense of reality that Bhagwan has. Bhagwan’s joy becomes difficult to separate from his loneliness. Poonam wants her husband back, while he struggles to preserve a connection with her and the world he has discovered.",
+        "Eventually, pills he took intending to die restore his communication with others. He resumes ordinary tasks and takes medication, accepting that he can no longer understand Mohan. The final sound of birdsong makes him stop and turn. His family is relieved, while he knows what returning to them has cost him. The play leaves him listening, with the possibility of that other understanding still close enough to interrupt the life he has chosen to resume."
+      ],
+      note: [
+        "For a play so concerned with the pain of being misunderstood, I am grateful for the patience our Housemasters and the Pastoral Team gave us, and for their advice throughout the production. The entire team had worked late into the night, compromising each time another rehearsal started after being convinced with the promise of just one scene, and I owe them my sincere gratitude and respect. I also must acknowledge my fellow producer, Ayaaz Ferozi, for sharing the work and responsibility with me, and dealing with everything that I had demanded of the cast. Directing this play meant having people beside me who were willing to give their time to it, and I hope they know how much I appreciated being able to make it together."
+      ]
+    },
+
+    rashomon: {
+      title: "Rashomon",
+      synopsis: [
+        "Rain brings a priest, a woodcutter and a wigmaker together beneath the ruined Rashomon gate. The priest has been shaken by testimony concerning a samurai’s death, while the wigmaker is eager to hear the details. Fay and Michael Kanin’s stage adaptation moves between their conversation and conflicting reconstructions of the crime.",
+        "The bandit Tajomaru has trapped the samurai and sexually assaulted his wife. What happened afterwards depends on who narrates the story. Tajomaru says he killed the husband in combat, preserving his reputation as a formidable opponent. The wife recalls her husband’s contempt following the assault, then a blackout; she believes she killed him. Speaking through a medium, the husband claims that she demanded his murder and that he subsequently took his own life.",
+        "The husband’s account makes betrayal central to his death. Tajomaru’s gives him the victory he wants to be remembered. The wife describes having to face her husband’s disgust after surviving an assault. Across these accounts, the men’s concern with honour repeatedly places her under judgment for violence committed against her.",
+        "The woodcutter admits that he witnessed the encounter and offers another version, in which the men’s courage looks less impressive. His earlier silence makes it difficult to accept him without question. Each return to the forest changes actions the audience has already seen, so the nonlinear structure continually unsettles their judgment.",
+        "An abandoned baby interrupts the argument. The wigmaker steals its covering and accuses the woodcutter of taking the dead man’s valuable sword. The woodcutter offers to raise the child despite having children of his own, and the priest entrusts it to him. His dishonesty remains part of what the priest knows about him. So does his willingness to care for another child. The priest’s faith returns through accepting both facts about the man standing beside him at the gate."
+      ],
+      note: [
+        "Having directed a play in which trust is so easily damaged, I want to acknowledge the people whose support I could count on. Our Pastoral Team deserves my thanks for their patience and advice throughout the production. I am grateful to the entire cast and crew for giving their time to the difficult task of playing these conflicting accounts. My co-director, Kanishk Bammi, and producer, Rahul Kapri, shared the responsibility of bringing the play to the stage with me, and I want to thank them for the help and invaluable guidance they gave me as I was still navigating how to manage an entire production. I am glad that this was something we were able to make together."
+      ]
+    }
+  };
+
+  var overlay = document.getElementById("overlay");
+  var panel = document.getElementById("panel");
+  var closeBtn = document.getElementById("close");
+
+  // Turns "plain *italic* plain" into text nodes and <em> elements (no innerHTML).
+  function richText(parent, text) {
+    text.split(/(\*[^*]+\*)/).forEach(function (part) {
+      if (!part) return;
+      if (part.charAt(0) === "*" && part.charAt(part.length - 1) === "*") {
+        var em = document.createElement("em");
+        em.textContent = part.slice(1, -1);
+        parent.appendChild(em);
+      } else {
+        parent.appendChild(document.createTextNode(part));
+      }
+    });
+  }
+
+  function fill(containerId, paragraphs) {
+    var box = document.getElementById(containerId);
+    box.querySelectorAll("p").forEach(function (p) { p.remove(); });
+    paragraphs.forEach(function (text) {
+      var p = document.createElement("p");
+      richText(p, text);
+      box.appendChild(p);
+    });
+  }
+
+  function openPlay(id) {
+    var play = PLAYS[id];
+    if (!play) return;
+    document.getElementById("title").textContent = play.title;
+    fill("synopsis", play.synopsis);
+    fill("note", play.note);
+    panel.scrollTop = 0;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    panel.focus();
+  }
+
+  function closePlay() {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    // Tell the Wix page to hide the embed again.
+    window.parent.postMessage({ type: "close" }, "*");
+  }
+
+  closeBtn.addEventListener("click", closePlay);
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) closePlay(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePlay(); });
+
+  // Wix page code sends { type: "open", playId: "ilhaam" } (see HOME page code).
+  window.addEventListener("message", function (e) {
+    var d = e.data;
+    if (d && d.type === "open") openPlay(d.playId);
+  });
+
+  // Let the page know we have loaded, so it can re-send a click that arrived early.
+  window.parent.postMessage({ type: "ready" }, "*");
+
+  // Standalone preview: play-details.html#ilhaam
+  if (location.hash && PLAYS[location.hash.slice(1)]) openPlay(location.hash.slice(1));
+</script>
+</body>
+</html>
