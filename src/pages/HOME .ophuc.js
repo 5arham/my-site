@@ -2,13 +2,13 @@
 // Each "Read More" button opens the #playDetailsModal embed (see embed/play-details.html)
 // and tells it which play to show.
 //
-// Set each `button` below to the ID of that play's Read More button in the Wix editor
+// Each `button` below is the ID of that play's Read More button in the Wix editor
 // (select the button > the ID is shown in the Properties & Events panel).
 
 const PLAYS = [
-    { playId: 'bhagavadajjukam', button: '#readMoreBhagavadajjukam' },
-    { playId: 'ilhaam', button: '#readMoreIlhaam' },
-    { playId: 'rashomon', button: '#readMoreRashomon' }
+    { playId: 'bhagavadajjukam', button: '#button2' },
+    { playId: 'ilhaam', button: '#button4' },
+    { playId: 'rashomon', button: '#button3' }
 ];
 
 const MODAL = '#playDetailsModal';
